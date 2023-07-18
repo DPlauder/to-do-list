@@ -1,0 +1,24 @@
+{
+  "name": "to-do-list",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DPlauder/to-do-list.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DPlauder/to-do-list/issues"
+  },
+  "homepage": "https://github.com/DPlauder/to-do-list#readme",
+  "devDependencies": {
+    "dev-server": "^0.2.0"
+  }
+}
