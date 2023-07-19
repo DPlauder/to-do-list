@@ -1,22 +1,29 @@
 export default function Model(){
-    const _todos = [
-        { id: 1, text: 'Learn JavaScript', completed: true},
-        { id: 2, text: 'Seek for a job', completed: false},
-    ];
+    let _onTodoChange = () => {};
+    let _todos = JSON.parse(localStorage.getItem("todos")) || [];
 
-    const getTodo = () => _todos
+    const _pushTodos = (todos) => {
+        _onTodoChange(todos);
+        localStorage.setItem("todos", JSON.stringify(todos));
+    };
+
+    const getTodo = () => _todos;
     
-
     const addTodo = (text) => {
         const todo = {
-            id: _todos.length + 1,
+            id: Math.floor(Math.random() * 100000),
             text,
             completed:false,
         };
         _todos.push(todo);
+        _pushTodos(_todos);
+        //_onTodoChange(_todos)
     }
     const removeTodo = (id) => {
-        _todos = _todos.filter((todo) => todo.id !== id)
+        _todos = _todos.filter((todo) => todo.id !== id);
+        _pushTodos(_todos);
+        //_onTodoChange(_todos)
+
     };
     const editTodo = (id, text) => {
         _todos = _todos.map((todo) => {
@@ -24,13 +31,20 @@ export default function Model(){
             return {...todo, text};
         });
     };
-    const toogleTodo = (id) => {
+    const toggleTodo = (id) => {
         _todos = _todos.map(todo => {
             if(todo.id  !== id) return todo;
-            return {...todo, completed: !todo.completed};
+            return {...todo, completed: !todo.completed};           
         })
+        _pushTodos(_todos);
+        //_onTodoChange(_todos)
+    }
+
+    const bindTodoChanged = (callback) => {
+        _onTodoChange = callback;
     }
 
 
-    return {addTodo, removeTodo, editTodo, toogleTodo, getTodo};
+
+    return {addTodo, removeTodo, editTodo, toggleTodo, getTodo, bindTodoChanged};
 }
