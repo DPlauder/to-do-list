@@ -26,7 +26,6 @@ export default function View(){
             const [todoText, resetInput] = handleValues();
             handler(todoText());
             resetInput();
-            
         });
     }
     const bindDeleteTodo = (handler) => {
@@ -41,18 +40,19 @@ export default function View(){
 
     const bindEditTodo = (handler) => {
         const todoList = getElement('.todo-list');
-        todoList.addEventListener('focusout', (event) => {   
+        todoList.addEventListener('focusout', (event) => {              
             if(event.target.className === "editable"){        
                 const id = parseInt(event.target.parentElement.id);
-                const _tempTodoText = event.target.innerHTML;
-                handler(id, _tempTodoText);  
+                const text = event.target.innerHTML;               
+                //_tempTodoText = event.target.innerHTML;
+                handler(id, _initTempListener(event));  
             }              
         });        
     };
 
     const bindToggleTodo = (handler) => {
         const todoList = getElement('.todo-list');
-        todoList.addEventListener('change', (e) => {
+        todoList.addEventListener('click', (e) => {
             if(e.target.type === 'checkbox'){
                 const id = parseInt(e.target.parentElement.id);
                 handler(id)
@@ -113,6 +113,7 @@ export default function View(){
                 //strike through completed todos
                 if(todo.completed){
                     const strike = createElement("s");
+                    //Fehler mit textContent
                     strike.textContent = todo.text;
                     span.appendChild(strike);
                 }else {
@@ -132,15 +133,17 @@ export default function View(){
             });
         }
     }
-    const _initTempListener = () => {
-        const todoList = document.querySelector(".todo-list");
-        todoList.addEventListener("input", (event) => {
-            if(event.target.className === "editable"){
-                _tempTodoText = event.target.innerText;
-            };           
-        });       
+    const _initTempListener = (event) => {
+        let _tempTodoText = "";
+        //const todoList = document.querySelector(".todo-list");
+        //todoList.addEventListener("input", (event) => {
+        if(event.target.className === "editable"){
+            _tempTodoText = event.target.innerText;
+        };     
+        return _tempTodoText      
+       
     };
-    _initTempListener();
+
      
 
 

@@ -33,6 +33,8 @@ export default function Controller(model, view){
     view.bindToggleTodo(_handleToggleTodo);
     view.bindEditTodo(_handleEditTodo);
 
+    console.log(model.getTodo());
+
     return {};
 
 }
