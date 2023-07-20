@@ -27,9 +27,10 @@ export default function Model(){
     };
     const editTodo = (id, text) => {
         _todos = _todos.map((todo) => {
-            if(_todo.id !== id) return todo;
+            if(todo.id !== id) return todo;
             return {...todo, text};
         });
+        _pushTodos(_todos);
     };
     const toggleTodo = (id) => {
         _todos = _todos.map(todo => {
@@ -38,11 +39,11 @@ export default function Model(){
         })
         _pushTodos(_todos);
         //_onTodoChange(_todos)
-    }
+    };
 
     const bindTodoChanged = (callback) => {
         _onTodoChange = callback;
-    }
+    };
 
 
 

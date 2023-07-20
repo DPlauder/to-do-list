@@ -26,6 +26,7 @@ export default function View(){
             const [todoText, resetInput] = handleValues();
             handler(todoText());
             resetInput();
+            
         });
     }
     const bindDeleteTodo = (handler) => {
@@ -34,24 +35,31 @@ export default function View(){
             if(e.target.className === 'delete'){
                 const id = parseInt(e.target.parentElement.id);
                 handler(id);
-            }                     
+            };                  
         });
     };
-/*
-    const BindEditTodo = (handler) => {
+
+    const bindEditTodo = (handler) => {
         const todoList = getElement('.todo-list');
-    }
-*/
+        todoList.addEventListener('focusout', (event) => {   
+            if(event.target.className === "editable"){        
+                const id = parseInt(event.target.parentElement.id);
+                const _tempTodoText = event.target.innerHTML;
+                handler(id, _tempTodoText);  
+            }              
+        });        
+    };
+
     const bindToggleTodo = (handler) => {
         const todoList = getElement('.todo-list');
-        todoList.addEventListener('click', (e) => {
+        todoList.addEventListener('change', (e) => {
             if(e.target.type === 'checkbox'){
                 const id = parseInt(e.target.parentElement.id);
                 handler(id)
-            }
-        })
+            };
+        });
         
-    }
+    };
 
     const configure = () => {
         //create Title
@@ -99,7 +107,7 @@ export default function View(){
                 checkbox.checked = todo.completed;
 
                 //span with content withtable text
-                const span = createElement('span');
+                const span = createElement('span', 'editable');
                 span.contentEditable = true;
 
                 //strike through completed todos
@@ -129,20 +137,12 @@ export default function View(){
         todoList.addEventListener("input", (event) => {
             if(event.target.className === "editable"){
                 _tempTodoText = event.target.innerText;
-            };
-        });
+            };           
+        });       
     };
     _initTempListener();
-    
-    //edit Todo Event Listener
-    const bindEditTodo = (handler) => {
-        const todoList = getElement('.todo-list');
-        todoList.addEventListener('focusout', (event) => {
-            const id = parent(event.target.parentElement.id);
-            handler(id, _tempTodoText);
-        });
-    };  
+     
 
 
-    return {createElement, getElement, renderTodos, bindAddTodo, bindDeleteTodo, bindToggleTodo};
+    return {createElement, getElement, renderTodos, bindAddTodo, bindDeleteTodo, bindToggleTodo, bindEditTodo};
 }
